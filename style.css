@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Контейнер виджета */
+.widget-wrapper {
+    background: rgba(15, 25, 30, 0.15); /* Едва заметный фон */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-radius: 16px;
+    padding: 12px 28px 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+
+    transform: scale(0.92) translateY(15px);
+    transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15),
+    0 0 15px rgba(46, 204, 113, 0.05);
+}
+
+/* Истинная полупрозрачная рамка (только контур) */
+.widget-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0; /* Занимает весь размер контейнера */
+    border-radius: 36px;
+    padding: 5px; /* Толщина рамки */
+
+    /* Градиент с прозрачностью (0.6) */
+    background: linear-gradient(135deg, rgba(168, 255, 120, 0.6), rgba(120, 255, 214, 0.6), rgba(79, 172, 254, 0.6));
+
+    /* Магия CSS: вырезаем середину, оставляя только рамку */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.widget-wrapper.show {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+.widget-wrapper.show::before {
+    opacity: 1;
+}
+
+/* Логотип */
+.widget-icon img {
+    width: 88px;
+    height: 88px;
+    border-radius: 12px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+}
+
+.widget-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 60px;
+    position: relative;
+    width: 180px;
+}
+
+/* Верхняя строка */
+.title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    position: absolute;
+    top: 15px;
+    left: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+    transform-origin: left center;
+}
+
+/* ЭФФЕКТ СДВИГА: текст увеличивается */
+.title-row.move-up {
+    transform: translateY(-15px) scale(1.25);
+    top: 10px;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #a8ff78, #78ffd6, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: all 0.8s ease;
+}
+
+.brand-name.show-name {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.brand-number {
+    font-size: 20px;
+    font-weight: 800;
+    color: #2ecc71;
+    transition: all 0.4s ease;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+}
+
+/* Ссылка снизу */
+.link-row {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8cff00;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+.link-row.show-link {
+    opacity: 1;
+    transform: translateY(0);
+}
